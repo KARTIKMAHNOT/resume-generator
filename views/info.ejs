@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resume Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-b from-zinc-900 to-zinc-800 text-yellow-400 font-sans">
+  <!-- Header -->
+  <header class="w-full bg-zinc-900 shadow-md py-5">
+    <div class="max-w-7xl mx-auto text-center">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-wide text-yellow-500">
+        CAREER CRAFTERS
+      </h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex items-center justify-center min-h-screen">
+    <section class="w-3/4 md:w-2/3 lg:w-1/2 p-10 text-left rounded-xl border border-yellow-500 bg-zinc-800 shadow-lg transition-all duration-300">
+      <h2 class="text-2xl font-bold mb-6 text-yellow-400 text-center">
+        Enter Your Resume Details
+      </h2>
+      <!-- Single Form; no nested forms -->
+      <form action="/generate" method="POST" id="resumeForm" class="space-y-8">
+        <!-- Personal Information -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Personal Information</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="name" class="block text-yellow-400">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="John Doe" required
+                class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+            </div>
+            <div>
+              <label for="phone" class="block text-yellow-400">Phone</label>
+              <input type="text" id="phone" name="phone" placeholder="555-1234" required
+                class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+            </div>
+            <div>
+              <label for="email" class="block text-yellow-400">Email</label>
+              <input type="email" id="email" name="email" placeholder="john@email.com"
+                required class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+            </div>
+            <div>
+              <label for="location" class="block text-yellow-400">Location</label>
+              <input type="text" id="location" name="location" placeholder="New York" required
+                class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary -->
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Summary</h3>
+          <textarea id="summary" name="summary" rows="4" placeholder="Your professional summary..."
+            required class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500"></textarea>
+        </div>
+
+        <!-- Experience Section -->
+        <div id="experienceSection">
+          <h3 class="text-xl font-semibold mb-4">Experience</h3>
+          <div id="experienceContainer" class="space-y-4">
+            <!-- Experience Block Template -->
+            <div class="experience-block border p-4 rounded border-yellow-500">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-yellow-400">Time Period</label>
+                  <input type="text" name="experience[0][period]" placeholder="2021--Present" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+                <div>
+                  <label class="block text-yellow-400">Job Title</label>
+                  <input type="text" name="experience[0][title]" placeholder="Software Engineer" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+                <div>
+                  <label class="block text-yellow-400">Company Name</label>
+                  <input type="text" name="experience[0][company]" placeholder="Company Name" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+              </div>
+              <div class="mt-4">
+                <label class="block text-yellow-400 mb-2">Bullet Points</label>
+                <div class="bullet-points space-y-2">
+                  <div class="flex gap-2">
+                    <input type="text" name="experience[0][bullets][]" placeholder="Describe your responsibility" required
+                      class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                    <button type="button" class="remove-bullet bg-red-500 text-white px-2 rounded">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="add-bullet mt-2 px-4 py-2 bg-green-500 text-white rounded">
+                  Add Bullet
+                </button>
+              </div>
+              <button type="button" class="remove-experience mt-2 px-4 py-2 bg-red-500 text-white rounded">
+                Remove Experience
+              </button>
+            </div>
+          </div>
+          <button type="button" id="addExperience" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+            Add Experience
+          </button>
+        </div>
+
+        <!-- Education Section -->
+        <div id="educationSection">
+          <h3 class="text-xl font-semibold mb-4">Education</h3>
+          <div id="educationContainer" class="space-y-4">
+            <!-- Education Block Template -->
+            <div class="education-block border p-4 rounded border-yellow-500">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-yellow-400">Degree</label>
+                  <input type="text" name="education[0][degree]" placeholder="B.S. Computer Science" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+                <div>
+                  <label class="block text-yellow-400">University</label>
+                  <input type="text" name="education[0][university]" placeholder="University Name" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+                <div>
+                  <label class="block text-yellow-400">Year</label>
+                  <input type="text" name="education[0][year]" placeholder="2014--2018" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+              </div>
+              <button type="button" class="remove-education mt-2 px-4 py-2 bg-red-500 text-white rounded">
+                Remove Education
+              </button>
+            </div>
+          </div>
+          <button type="button" id="addEducation" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+            Add Education
+          </button>
+        </div>
+
+        <!-- Skills Section -->
+        <div id="skillsSection">
+          <h3 class="text-xl font-semibold mb-4">Skills</h3>
+          <div id="skillsContainer" class="space-y-4">
+            <!-- Skill Block Template -->
+            <div class="skill-block border p-4 rounded border-yellow-500">
+              <div>
+                <label class="block text-yellow-400">Skill Category</label>
+                <input type="text" name="skills[0][category]" placeholder="Programming / Tools / Soft Skills" required
+                  class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+              </div>
+              <div class="mt-4">
+                <label class="block text-yellow-400 mb-2">Bullet Points</label>
+                <div class="bullet-points space-y-2">
+                  <div class="flex gap-2">
+                    <input type="text" name="skills[0][bullets][]" placeholder="Skill detail" required
+                      class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                    <button type="button" class="remove-bullet bg-red-500 text-white px-2 rounded">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="add-bullet mt-2 px-4 py-2 bg-green-500 text-white rounded">
+                  Add Bullet
+                </button>
+              </div>
+              <button type="button" class="remove-skill mt-2 px-4 py-2 bg-red-500 text-white rounded">
+                Remove Skill
+              </button>
+            </div>
+          </div>
+          <button type="button" id="addSkill" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+            Add Skill
+          </button>
+        </div>
+
+        <!-- Projects Section -->
+        <div id="projectsSection">
+          <h3 class="text-xl font-semibold mb-4">Projects</h3>
+          <div id="projectsContainer" class="space-y-4">
+            <!-- Project Block Template -->
+            <div class="project-block border p-4 rounded border-yellow-500">
+              <div>
+                <label class="block text-yellow-400">Project Title</label>
+                <input type="text" name="projects[0][title]" placeholder="Task Management App" required
+                  class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+              </div>
+              <div class="mt-4">
+                <label class="block text-yellow-400 mb-2">Description</label>
+                <div class="bullet-points space-y-2">
+                  <div class="flex gap-2">
+                    <input type="text" name="projects[0][bullets][]" placeholder="Project detail" required
+                      class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                    <button type="button" class="remove-bullet bg-red-500 text-white px-2 rounded">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <button type="button" class="add-bullet mt-2 px-4 py-2 bg-green-500 text-white rounded">
+                  Add Bullet
+                </button>
+              </div>
+              <button type="button" class="remove-project mt-2 px-4 py-2 bg-red-500 text-white rounded">
+                Remove Project
+              </button>
+            </div>
+          </div>
+          <button type="button" id="addProject" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+            Add Project
+          </button>
+        </div>
+
+        <!-- Certifications Section -->
+        <div id="certificationsSection">
+          <h3 class="text-xl font-semibold mb-4">Certifications</h3>
+          <div id="certificationsContainer" class="space-y-4">
+            <!-- Certification Block Template -->
+            <div class="certification-block border p-4 rounded border-yellow-500">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-yellow-400">Certification</label>
+                  <input type="text" name="certifications[0][name]" placeholder="AWS Certified Solutions Architect" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+                <div>
+                  <label class="block text-yellow-400">Year</label>
+                  <input type="text" name="certifications[0][year]" placeholder="2021" required
+                    class="w-full p-2 rounded bg-zinc-700 text-yellow-400 border border-yellow-500" />
+                </div>
+              </div>
+              <button type="button" class="remove-certification mt-2 px-4 py-2 bg-red-500 text-white rounded">
+                Remove Certification
+              </button>
+            </div>
+          </div>
+          <button type="button" id="addCertification" class="mt-4 px-4 py-2 bg-green-500 text-white rounded">
+            Add Certification
+          </button>
+        </div>
+
+        <!-- Hidden field for ID -->
+        <input type="hidden" name="id" value="<%= id %>" />
+
+        <!-- Submit Button -->
+        <div class="text-center mt-8">
+          <input type="submit" value="Generate Resume" 
+                 class="px-8 py-3 bg-yellow-500 text-zinc-900 font-semibold rounded-lg shadow-md hover:bg-yellow-400 hover:shadow-lg transition-all duration-300" />
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full bg-zinc-900 py-4 mt-10">
+    <div class="max-w-7xl mx-auto text-center text-sm text-yellow-300">
+      © 2025 Your Website. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- JavaScript for Dynamic Form Fields -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Experience: Add & Remove
+      document.getElementById('addExperience').addEventListener('click', function () {
+        const container = document.getElementById('experienceContainer');
+        const blocks = container.getElementsByClassName('experience-block');
+        const newBlock = blocks[blocks.length - 1].cloneNode(true);
+        newBlock.querySelectorAll('input').forEach(input => input.value = '');
+        container.appendChild(newBlock);
+      });
+      document.getElementById('experienceContainer').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('remove-experience')) {
+          const container = document.getElementById('experienceContainer');
+          if (container.getElementsByClassName('experience-block').length > 1) {
+            e.target.closest('.experience-block').remove();
+          }
+        }
+      });
+
+      // Education: Add & Remove
+      document.getElementById('addEducation').addEventListener('click', function () {
+        const container = document.getElementById('educationContainer');
+        const blocks = container.getElementsByClassName('education-block');
+        const newBlock = blocks[blocks.length - 1].cloneNode(true);
+        newBlock.querySelectorAll('input').forEach(input => input.value = '');
+        container.appendChild(newBlock);
+      });
+      document.getElementById('educationContainer').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('remove-education')) {
+          const container = document.getElementById('educationContainer');
+          if (container.getElementsByClassName('education-block').length > 1) {
+            e.target.closest('.education-block').remove();
+          }
+        }
+      });
+
+      // Skills: Add & Remove
+      document.getElementById('addSkill').addEventListener('click', function () {
+        const container = document.getElementById('skillsContainer');
+        const blocks = container.getElementsByClassName('skill-block');
+        const newBlock = blocks[blocks.length - 1].cloneNode(true);
+        newBlock.querySelectorAll('input').forEach(input => input.value = '');
+        container.appendChild(newBlock);
+      });
+      document.getElementById('skillsContainer').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('remove-skill')) {
+          const container = document.getElementById('skillsContainer');
+          if (container.getElementsByClassName('skill-block').length > 1) {
+            e.target.closest('.skill-block').remove();
+          }
+        }
+      });
+
+      // Projects: Add & Remove
+      document.getElementById('addProject').addEventListener('click', function () {
+        const container = document.getElementById('projectsContainer');
+        const blocks = container.getElementsByClassName('project-block');
+        const newBlock = blocks[blocks.length - 1].cloneNode(true);
+        newBlock.querySelectorAll('input').forEach(input => input.value = '');
+        container.appendChild(newBlock);
+      });
+      document.getElementById('projectsContainer').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('remove-project')) {
+          const container = document.getElementById('projectsContainer');
+          if (container.getElementsByClassName('project-block').length > 1) {
+            e.target.closest('.project-block').remove();
+          }
+        }
+      });
+
+      // Certifications: Add & Remove
+      document.getElementById('addCertification').addEventListener('click', function () {
+        const container = document.getElementById('certificationsContainer');
+        const blocks = container.getElementsByClassName('certification-block');
+        const newBlock = blocks[blocks.length - 1].cloneNode(true);
+        newBlock.querySelectorAll('input').forEach(input => input.value = '');
+        container.appendChild(newBlock);
+      });
+      document.getElementById('certificationsContainer').addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('remove-certification')) {
+          const container = document.getElementById('certificationsContainer');
+          if (container.getElementsByClassName('certification-block').length > 1) {
+            e.target.closest('.certification-block').remove();
+          }
+        }
+      });
+
+      // Bullet Points: Add & Remove for all sections
+      document.addEventListener('click', function (e) {
+        if (e.target && e.target.classList.contains('add-bullet')) {
+          const bulletContainer = e.target.previousElementSibling;
+          const newBullet = bulletContainer.firstElementChild.cloneNode(true);
+          newBullet.querySelector('input').value = '';
+          bulletContainer.appendChild(newBullet);
+        }
+        if (e.target && e.target.classList.contains('remove-bullet')) {
+          const bulletContainer = e.target.closest('.bullet-points');
+          if (bulletContainer.children.length > 1) {
+            e.target.closest('.flex').remove();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
