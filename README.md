@@ -78,3 +78,8 @@ Pull requests are welcome! Feel free to fork the repo and submit improvements.
 ## 📜 License
 This project is open-source and available under the **MIT License**.
 
+![Resume Builder UI](assets/1.png)
+![Resume Builder UI](assets/2.png)
+![Resume Builder UI](assets/3.png)
+# Generated Resume
+![Resume Builder UI](assets/4.png)
